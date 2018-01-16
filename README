@@ -38,7 +38,18 @@ git reset	git add 전으로 되돌리기. git add된 것을 git add하기 전으
 		(수정)
 		git add .
 		git commit
-		git push origin master -f
+		git push origin master -f	-f means force. git revert는 되돌리는 커밋을 만드는건데(revert했다는 기록이 남을 것), 이거는 예전에 한 커밋을 없던 셈치는 것. 
+						지금은 서버보다 내 로컬이 더 옛날과정이다보니 -f 안하면 에러뜰 것. 다만 다른 사람과 같이 할때는 조심해야..
+						동료가 내 커밋을 사용해서 개발하고 있을 때 reset해서 커밋을 없던셈쳐버리면 merge할 때 문제가 생긴다.
+						즉, reset은 10초 이전에 바로 수정해야 할 정도로 바로바로 해야할 때, 그 사이에 누가 내 커밋을 가져갈 일 없을 경우에만 사용하기.
+
+		git revert @		
+		git revert a^..b
+
+		git reflog		실제 시간순으로 log. 내 기준으로. reset/revert 사용 전의 시점이 어느 커밋인지 찾아낼 수 있음. reset/revert 잘못했을 때 찾아낼 수 있음.
+					서버에는 저장 안되고 로컬에만 저장된다.
+		
+
 git revert
 git cherry-pick		다른 branch에 있는 commit 몇개를 가져오고 싶을 때
 git merge
