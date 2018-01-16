@@ -3,3 +3,12 @@ HelloHello
 나중에는
 add commit push 만 하면 됨. 처음 설정할 때는 init하고 등등 해야함
 
+build된 파일은 commit하지 말자. 이런걸 git이 알아서 해주도록 하는 게 gitignore
+
+a.exe	a.exe 예외처리
+*.exe	모든 exe 파일을 예외처리(숨김파일 .*.exe도 포함)
+/a.exe	최상위 디렉토리만의 a.exe 예외처리
+!a.exe	이미 예외처리된 규칙을 무시하고 a.exe 추가
+!a/**	이미 예외처리된 규칙을 무시하고 a 디렉토리에 있는 모든 파일/디렉토리 추가
+
+(/: root, !: not)
