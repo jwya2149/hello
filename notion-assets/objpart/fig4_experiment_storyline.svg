@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860">
+  <defs>
+    <style>
+      .h { font: bold 24px sans-serif; fill: #111; }
+      .t { font: 18px sans-serif; fill: #111; }
+      .lbl { font: 14px sans-serif; fill: #333; }
+      .b { fill: #fff; stroke: #333; stroke-width: 2; rx: 10; ry: 10; }
+      .good { fill: #eef7ee; stroke: #2f7d32; stroke-width: 2; rx: 10; ry: 10; }
+      .bad { fill: #fbefef; stroke: #a33; stroke-width: 2; rx: 10; ry: 10; }
+      .open { fill: #fff7e8; stroke: #b07a00; stroke-width: 2; rx: 10; ry: 10; }
+      .arrow { stroke: #666; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="40" class="h">Figure 4. Experiment storyline and what each run changed</text>
+
+  <rect x="80" y="90" width="320" height="110" class="b"/>
+  <text x="110" y="130" class="t">A1: initial Ligra LB</text>
+  <text x="110" y="160" class="lbl">Observation: lower DRAM, similar runtime</text>
+  <text x="110" y="185" class="lbl">Interpretation at that moment: maybe efficient?</text>
+
+  <rect x="80" y="260" width="320" height="110" class="bad"/>
+  <text x="110" y="300" class="t">Low-cap pair (9216MB)</text>
+  <text x="110" y="330" class="lbl">Same low-DRAM pattern remains</text>
+  <text x="110" y="355" class="lbl">Runtime now worse than baseline</text>
+
+  <rect x="80" y="430" width="320" height="110" class="bad"/>
+  <text x="110" y="470" class="t">Underfill-check</text>
+  <text x="110" y="500" class="lbl">DRAM fill increases</text>
+  <text x="110" y="525" class="lbl">Runtime does not recover</text>
+
+  <rect x="80" y="600" width="320" height="110" class="bad"/>
+  <text x="110" y="640" class="t">Payoff rerun</text>
+  <text x="110" y="670" class="lbl">Active regions are actually sampled</text>
+  <text x="110" y="695" class="lbl">So “wrong target set” weakens</text>
+
+  <rect x="500" y="120" width="300" height="90" class="open"/>
+  <text x="530" y="155" class="t">efficient low-DRAM</text>
+  <text x="530" y="182" class="lbl">plausible after A1 only</text>
+
+  <rect x="500" y="300" width="300" height="90" class="good"/>
+  <text x="530" y="335" class="t">underfill exists</text>
+  <text x="530" y="362" class="lbl">supported by low-cap pair</text>
+
+  <rect x="500" y="480" width="300" height="90" class="bad"/>
+  <text x="530" y="515" class="t">underfill alone explains it</text>
+  <text x="530" y="542" class="lbl">weakened by underfill-check</text>
+
+  <rect x="500" y="660" width="300" height="90" class="bad"/>
+  <text x="530" y="695" class="t">mis-targeted active set</text>
+  <text x="530" y="722" class="lbl">weakened by payoff rerun</text>
+
+  <rect x="900" y="360" width="300" height="120" class="open"/>
+  <text x="930" y="400" class="t">Current best guess</text>
+  <text x="930" y="435" class="t">management overhead</text>
+  <text x="930" y="465" class="lbl">handoff / owner update / moves</text>
+
+  <line x1="400" y1="145" x2="500" y2="165" class="arrow"/>
+  <line x1="400" y1="315" x2="500" y2="345" class="arrow"/>
+  <line x1="400" y1="485" x2="500" y2="525" class="arrow"/>
+  <line x1="400" y1="655" x2="500" y2="705" class="arrow"/>
+  <line x1="800" y1="345" x2="900" y2="420" class="arrow"/>
+  <line x1="800" y1="525" x2="900" y2="420" class="arrow"/>
+  <line x1="800" y1="705" x2="900" y2="420" class="arrow"/>
+
+  <text x="905" y="720" class="lbl">Meaning: local LB hypotheses were tested,</text>
+  <text x="905" y="745" class="lbl">but the remaining question moved upward:</text>
+  <text x="905" y="770" class="lbl">is the problem now mainly management cost?</text>
+</svg>
