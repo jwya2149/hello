@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980">
+  <defs>
+    <style>
+      .h { font: bold 30px sans-serif; fill: #111; }
+      .sh { font: bold 22px sans-serif; fill: #111; }
+      .t { font: 20px sans-serif; fill: #111; }
+      .lbl { font: 17px sans-serif; fill: #333; }
+      .b { fill: #fff; stroke: #333; stroke-width: 2.5; rx: 14; ry: 14; }
+      .g { fill: #eef8ef; stroke: #2f7d32; stroke-width: 2.5; rx: 14; ry: 14; }
+      .y { fill: #fff7e8; stroke: #b07a00; stroke-width: 2.5; rx: 14; ry: 14; }
+      .u { fill: #eef5ff; stroke: #2f5ea8; stroke-width: 2.5; rx: 14; ry: 14; }
+      .flow { stroke: #555; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L11,4 z" fill="#555"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="48" class="h">Figure 1. ObjPart+MEMTIS 조합 overview</text>
+
+  <rect x="70" y="110" width="320" height="130" class="b"/>
+  <text x="100" y="160" class="t">애플리케이션</text>
+  <text x="100" y="195" class="lbl">allocation 요청 + 실행 중 메모리 접근</text>
+
+  <rect x="470" y="90" width="420" height="170" class="g"/>
+  <text x="500" y="140" class="sh">ObjPart</text>
+  <text x="500" y="178" class="lbl">call stack / policy를 보고 object를 분류</text>
+  <text x="500" y="208" class="lbl">DRAM pin / PMEM pin / dynamic pool 중 하나에 배치</text>
+  <text x="500" y="238" class="lbl">핵심 질문: “이 object를 처음 어디에 둘까?”</text>
+
+  <rect x="470" y="340" width="420" height="170" class="y"/>
+  <text x="500" y="390" class="sh">보호 계층 (`exclude`)</text>
+  <text x="500" y="428" class="lbl">선택된 category range를 MEMTIS migration에서만 보호</text>
+  <text x="500" y="458" class="lbl">대표 category: short / frozen / EB / LB</text>
+  <text x="500" y="488" class="lbl">핵심 질문: “이 range는 지금 MEMTIS가 건드리지 말아야 하나?”</text>
+
+  <rect x="470" y="590" width="420" height="170" class="u"/>
+  <text x="500" y="640" class="sh">MEMTIS</text>
+  <text x="500" y="678" class="lbl">sampling / hotness / DRAM cap을 보고 page를 이동</text>
+  <text x="500" y="708" class="lbl">promote / demote로 DRAM residency를 조정</text>
+  <text x="500" y="738" class="lbl">핵심 질문: “이 page를 지금 DRAM에 둘 가치가 있나?”</text>
+
+  <rect x="1090" y="170" width="350" height="120" class="b"/>
+  <text x="1120" y="215" class="t">초기 배치 결과</text>
+  <text x="1120" y="250" class="lbl">object가 어느 pool에서 시작하는가</text>
+
+  <rect x="1090" y="430" width="350" height="120" class="b"/>
+  <text x="1120" y="475" class="t">보호 구간 결과</text>
+  <text x="1120" y="510" class="lbl">선택된 range는 MEMTIS migration skip</text>
+
+  <rect x="1090" y="690" width="350" height="120" class="b"/>
+  <text x="1120" y="735" class="t">런타임 residency 결과</text>
+  <text x="1120" y="770" class="lbl">나머지 page는 MEMTIS가 DRAM/PMEM 이동</text>
+
+  <line x1="390" y1="175" x2="470" y2="175" class="flow"/>
+  <line x1="390" y1="175" x2="470" y2="430" class="flow"/>
+  <line x1="390" y1="175" x2="470" y2="675" class="flow"/>
+  <line x1="890" y1="175" x2="1090" y2="230" class="flow"/>
+  <line x1="890" y1="430" x2="1090" y2="490" class="flow"/>
+  <line x1="890" y1="675" x2="1090" y2="750" class="flow"/>
+
+  <rect x="70" y="850" width="1370" height="80" class="b"/>
+  <text x="100" y="885" class="lbl">읽는 순서: App -&gt; ObjPart가 object의 시작 위치를 정함 -&gt; 보호 계층이 일부 range를 MEMTIS migration에서 제외 -&gt; MEMTIS가 나머지 page를 런타임 이동</text>
+  <text x="100" y="915" class="lbl">즉 최근 실험의 핵심은 “ObjPart 전체”가 아니라, ObjPart allocator 위에 보호 계층을 얹은 결합 모드다.</text>
+</svg>
