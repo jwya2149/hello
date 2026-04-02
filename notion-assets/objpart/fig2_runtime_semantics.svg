@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="920" viewBox="0 0 1500 920">
+  <defs>
+    <style>
+      .t { font: 22px sans-serif; fill: #111; }
+      .h { font: bold 30px sans-serif; fill: #111; }
+      .b { fill: #fff; stroke: #333; stroke-width: 2; rx: 10; ry: 10; }
+      .line { stroke: #444; stroke-width: 3; }
+      .ctl { stroke: #1f5aa6; stroke-width: 3; fill: none; marker-end: url(#arrow-blue); }
+      .lbl { font: 18px sans-serif; fill: #333; }
+      .soft { fill: #f7f7f7; stroke: #666; stroke-width: 2; rx: 10; ry: 10; }
+    </style>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#1f5aa6"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="46" class="h">Figure 4. Static protection과 dynamic protection의 차이</text>
+
+  <text x="200" y="110" class="t">Static category (`short`, `frozen`)</text>
+  <line x1="90" y1="150" x2="690" y2="150" class="line"/>
+  <rect x="110" y="200" width="220" height="110" class="b"/>
+  <text x="140" y="242" class="t">run 시작</text>
+  <text x="140" y="277" class="lbl">metadata에서 보호 구간 결정</text>
+  <rect x="400" y="200" width="230" height="110" class="b"/>
+  <text x="430" y="242" class="t">exclude set 고정</text>
+  <text x="430" y="277" class="lbl">초기에 한 번 등록</text>
+  <rect x="400" y="395" width="230" height="110" class="b"/>
+  <text x="432" y="437" class="t">MEMTIS skip</text>
+  <text x="430" y="472" class="lbl">같은 range를 run 내내 보호</text>
+  <line x1="330" y1="255" x2="400" y2="255" class="ctl"/>
+  <line x1="515" y1="310" x2="515" y2="395" class="ctl"/>
+
+  <text x="910" y="110" class="t">Dynamic category (`EB`, `LB`)</text>
+  <line x1="780" y1="150" x2="1410" y2="150" class="line"/>
+  <rect x="810" y="200" width="240" height="110" class="b"/>
+  <text x="840" y="242" class="t">run 시작</text>
+  <text x="840" y="277" class="lbl">runtime detector / state 추적 시작</text>
+  <rect x="1120" y="200" width="250" height="110" class="b"/>
+  <text x="1150" y="242" class="t">보호 구간 추가</text>
+  <text x="1150" y="277" class="lbl">exclude range가 삽입됨</text>
+  <rect x="1120" y="395" width="250" height="110" class="b"/>
+  <text x="1198" y="437" class="t">handoff</text>
+  <text x="1150" y="472" class="lbl">보호 구간이 갱신됨</text>
+  <rect x="1120" y="590" width="250" height="110" class="b"/>
+  <text x="1148" y="632" class="t">MEMTIS가 다시 관여</text>
+  <text x="1150" y="667" class="lbl">이 range에 대한 migration 재허용</text>
+  <line x1="1050" y1="255" x2="1120" y2="255" class="ctl"/>
+  <line x1="1245" y1="310" x2="1245" y2="395" class="ctl"/>
+  <line x1="1245" y1="505" x2="1245" y2="590" class="ctl"/>
+
+  <rect x="90" y="785" width="1320" height="90" class="soft"/>
+  <text x="125" y="822" class="lbl">Static: run 시작 시 정한 보호 구간을 끝까지 유지한다.</text>
+  <text x="775" y="822" class="lbl">Dynamic: runtime state가 바뀌면 보호 구간도 바뀐다.</text>
+  <text x="125" y="857" class="lbl">중요: 이 보호 계층은 현재 결합 실험의 일부일 뿐이며, ObjPart 전체의 정의와 동일하지 않다.</text>
+</svg>
