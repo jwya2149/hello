@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #111; }
+      .title { font-size: 34px; font-weight: 700; }
+      .box { fill: #fff; stroke: #355070; stroke-width: 3; rx: 20; ry: 20; }
+      .active { stroke: #1d70d6; stroke-width: 6; }
+      .pending { stroke: #1d70d6; stroke-width: 4; stroke-dasharray: 12 10; }
+      .rdm { stroke: #c56b2d; stroke-width: 4; }
+      .note { fill: #fff; stroke: #d3d3d3; stroke-width: 2; rx: 14; ry: 14; filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.12)); }
+      .legend { fill: #fff; stroke: #222; stroke-width: 2; rx: 12; ry: 12; }
+      .small { font-size: 20px; }
+      .body { font-size: 22px; font-weight: 700; }
+      .sub { font-size: 18px; }
+      .bullet { font-size: 16px; }
+      .arrow { stroke: #111; stroke-width: 6; fill: none; marker-end: url(#arrow); }
+      .side { stroke: #111; stroke-width: 6; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto">
+      <path d="M 0 0 L 14 7 L 0 14 z" fill="#111"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="820" fill="#faf9f5"/>
+  <text x="40" y="72" class="title">EB category policy: burst window, demotion, and one-way kernel handoff</text>
+
+  <rect x="230" y="120" width="470" height="90" class="box"/>
+  <circle cx="285" cy="165" r="28" fill="#1d70d6"/>
+  <text x="285" y="173" text-anchor="middle" fill="#fff" class="small">DRAM</text>
+  <text x="405" y="162" text-anchor="middle" class="body">UNSEEN</text>
+  <text x="405" y="192" text-anchor="middle" class="sub">보호 시작 전 / 초기 DRAM 선호 배치</text>
+
+  <rect x="230" y="270" width="470" height="110" class="box active"/>
+  <circle cx="285" cy="325" r="28" fill="#1d70d6"/>
+  <text x="285" y="333" text-anchor="middle" fill="#fff" class="small">DRAM</text>
+  <text x="405" y="318" text-anchor="middle" class="body">ACTIVE</text>
+  <text x="405" y="348" text-anchor="middle" class="sub">Burst 윈도우 직접 관리 / DRAM 타깃 지정</text>
+
+  <rect x="250" y="455" width="430" height="95" class="box pending"/>
+  <circle cx="300" cy="503" r="24" fill="#1d70d6"/>
+  <text x="300" y="510" text-anchor="middle" fill="#fff" font-size="14">DRAM</text>
+  <text x="450" y="495" text-anchor="middle" class="body">DEMOTED_PENDING</text>
+  <text x="450" y="525" text-anchor="middle" class="sub">강등 대기 중 / DRAM 지속 상주</text>
+
+  <rect x="230" y="595" width="470" height="90" class="box rdm"/>
+  <circle cx="285" cy="640" r="28" fill="#c56b2d"/>
+  <text x="285" y="648" text-anchor="middle" fill="#fff" class="small">PMEM</text>
+  <text x="425" y="637" text-anchor="middle" class="body">RDM_OWNED</text>
+  <text x="425" y="667" text-anchor="middle" class="sub">커널 위임 완료 / PMEM 위치</text>
+  <text x="630" y="643" font-size="48" font-weight="700">K↪</text>
+
+  <path d="M 465 210 L 465 268" class="arrow"/>
+  <text x="500" y="246" class="small">첫 접근 발생 (First touch)</text>
+
+  <path d="M 465 382 L 465 452" class="arrow"/>
+  <text x="490" y="428" class="small">Burst 윈도우 만료 + 최소 유지 시간 충족</text>
+
+  <path d="M 465 552 L 465 592" class="arrow"/>
+  <text x="505" y="580" class="small">유예 기간 만료 및 강등 완료</text>
+
+  <path d="M 252 325 C 150 325, 145 450, 205 500" class="side"/>
+  <text x="42" y="420" class="small">유예 기간 내 재접근</text>
+  <text x="42" y="448" class="small">감지 (강등 취소)</text>
+
+  <path d="M 705 330 C 790 330, 790 500, 682 500" class="side"/>
+  <text x="760" y="420" class="small">유예 기간 없음</text>
+  <text x="760" y="448" class="small">(Direct handoff)</text>
+
+  <rect x="920" y="120" width="420" height="120" class="note"/>
+  <text x="945" y="165" class="body">Burst window 판단</text>
+  <text x="945" y="205" class="small">할당 초기 시점을 기준으로 설정된 윈도우 유지</text>
+  <text x="945" y="233" class="small">시간이 지나면 보호된 것으로 판단하여 다음 단계로 전환</text>
+
+  <rect x="920" y="290" width="420" height="145" class="note"/>
+  <text x="945" y="335" class="body">Second chance / Grace</text>
+  <text x="945" y="376" class="small">Pending 상태에서 새로운 메모리 접근 샘플이 잡히면</text>
+  <text x="945" y="404" class="small">즉시 강등 절차를 취소하고 ACTIVE로 복귀</text>
+
+  <rect x="920" y="475" width="420" height="180" class="note"/>
+  <text x="945" y="520" class="body">Kernel interaction</text>
+  <text x="945" y="564" class="bullet">• ACTIVE / DEMOTED_PENDING: 커널 migration 개입 차단</text>
+  <text x="945" y="592" class="bullet">• RDM_OWNED: 단방향 위임 뒤 커널 자체 계층화 정책 복귀</text>
+  <text x="945" y="620" class="bullet">• 현재 해석의 핵심: EB는 런타임 전체를 붙잡는 상태가 아님</text>
+
+  <rect x="40" y="730" width="1320" height="56" class="legend"/>
+  <circle cx="90" cy="758" r="18" fill="#1d70d6"/>
+  <text x="120" y="765" class="small">DRAM 측 상주 및 타깃</text>
+  <circle cx="360" cy="758" r="18" fill="#c56b2d"/>
+  <text x="390" y="765" class="small">PMEM 측 상주</text>
+  <rect x="610" y="740" width="54" height="36" fill="none" stroke="#111" stroke-width="3" stroke-dasharray="8 6" rx="10" ry="10"/>
+  <text x="685" y="765" class="small">일시적 대기 및 전이 상태</text>
+  <text x="980" y="765" font-size="38" font-weight="700">K↪</text>
+  <text x="1035" y="765" class="small">커널 tiering 시스템으로 위임 완료</text>
+</svg>
