@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+  <defs>
+    <style>
+      .h { font: bold 30px sans-serif; fill: #111; }
+      .t { font: 22px sans-serif; fill: #111; }
+      .lbl { font: 18px sans-serif; fill: #333; }
+      .b { fill: #fff; stroke: #333; stroke-width: 2; rx: 10; ry: 10; }
+      .c1 { fill: #eef8ef; stroke: #2f7d32; stroke-width: 2; rx: 10; ry: 10; }
+      .c2 { fill: #fff7e8; stroke: #b07a00; stroke-width: 2; rx: 10; ry: 10; }
+      .c3 { fill: #eef5ff; stroke: #2f5ea8; stroke-width: 2; rx: 10; ry: 10; }
+      .arrow { stroke: #666; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="46" class="h">Figure 3. 현재 결합 모드에서 누가 무엇을 통제하는가</text>
+
+  <rect x="80" y="120" width="390" height="210" class="c1"/>
+  <text x="115" y="165" class="t">ObjPart allocator / placement</text>
+  <text x="115" y="205" class="lbl">통제하는 것: object의 초기 placement</text>
+  <text x="115" y="240" class="lbl">보는 것: call stack, policy, pool type</text>
+  <text x="115" y="275" class="lbl">최근 결합 실험: user-space migration은 주로 OFF</text>
+
+  <rect x="555" y="120" width="390" height="210" class="c2"/>
+  <text x="590" y="165" class="t">보호 계층 (`exclude`)</text>
+  <text x="590" y="205" class="lbl">통제하는 것: 지금 보호할 range</text>
+  <text x="590" y="240" class="lbl">기록하는 곳: kernel exclude set</text>
+  <text x="590" y="275" class="lbl">의미: migration-only exclusion</text>
+
+  <rect x="1030" y="120" width="390" height="210" class="c3"/>
+  <text x="1065" y="165" class="t">MEMTIS</text>
+  <text x="1065" y="205" class="lbl">통제하는 것: runtime page migration</text>
+  <text x="1065" y="240" class="lbl">보는 것: sampling, hotness, DRAM cap</text>
+  <text x="1065" y="275" class="lbl">적용 범위: non-excluded page</text>
+
+  <line x1="470" y1="225" x2="555" y2="225" class="arrow"/>
+  <line x1="945" y1="225" x2="1030" y2="225" class="arrow"/>
+
+  <rect x="100" y="410" width="1320" height="330" class="b"/>
+  <text x="135" y="460" class="t">이 그림에서 읽어야 할 세 문장</text>
+  <text x="165" y="520" class="lbl">1. ObjPart는 “이 object를 처음 어디에 둘까?”를 결정한다.</text>
+  <text x="165" y="565" class="lbl">2. 보호 계층은 “이 range는 지금 MEMTIS가 건드리지 말아야 하나?”를 결정한다.</text>
+  <text x="165" y="610" class="lbl">3. MEMTIS는 “나머지 page 중 무엇을 지금 DRAM에 둘까?”를 결정한다.</text>
+
+  <text x="135" y="680" class="t">중요한 경계</text>
+  <text x="165" y="720" class="lbl">현재 설계는 MEMTIS를 end-to-end category-aware system으로 바꾸는 것이 아니다.</text>
+  <text x="165" y="760" class="lbl">기존 MEMTIS migration 위에 “선택된 range는 지금 migrate하지 말라”는 보호 규칙만 추가한다.</text>
+</svg>
