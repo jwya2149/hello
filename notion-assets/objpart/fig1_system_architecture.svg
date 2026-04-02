@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1080" viewBox="0 0 1600 1080">
+  <defs>
+    <style>
+      .h { font: bold 30px sans-serif; fill: #111; }
+      .sh { font: bold 22px sans-serif; fill: #111; }
+      .t { font: 20px sans-serif; fill: #111; }
+      .lbl { font: 17px sans-serif; fill: #333; }
+      .small { font: 15px sans-serif; fill: #444; }
+      .b { fill: #fff; stroke: #333; stroke-width: 2.5; rx: 12; ry: 12; }
+      .lane1 { fill: #eef8ef; stroke: #2f7d32; stroke-width: 2.5; rx: 14; ry: 14; }
+      .lane2 { fill: #eef5ff; stroke: #2f5ea8; stroke-width: 2.5; rx: 14; ry: 14; }
+      .lane3 { fill: #fff7e8; stroke: #b07a00; stroke-width: 2.5; rx: 14; ry: 14; }
+      .flow { stroke: #555; stroke-width: 3; fill: none; marker-end: url(#arrow-gray); }
+      .ctl { stroke: #1f5aa6; stroke-width: 3; fill: none; marker-end: url(#arrow-blue); }
+    </style>
+    <marker id="arrow-gray" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L11,4 z" fill="#555"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L11,4 z" fill="#1f5aa6"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="46" class="h">Figure 2. ObjPart allocation path, MEMTIS runtime path, and protection layer</text>
+
+  <rect x="40" y="90" width="1520" height="250" class="lane1"/>
+  <text x="70" y="130" class="sh">A. ObjPart allocation path</text>
+  <text x="70" y="165" class="lbl">ObjPart가 결정하는 것: 새 object가 어디서 시작할 것인가</text>
+
+  <rect x="80" y="205" width="220" height="90" class="b"/>
+  <text x="105" y="242" class="t">1. allocation 요청</text>
+  <text x="105" y="272" class="lbl">malloc / newmalloc</text>
+
+  <rect x="360" y="205" width="280" height="90" class="b"/>
+  <text x="385" y="242" class="t">2. policy lookup</text>
+  <text x="385" y="272" class="lbl">call stack -&gt; placement class</text>
+
+  <rect x="700" y="190" width="300" height="120" class="b"/>
+  <text x="725" y="230" class="t">3. pool 선택</text>
+  <text x="725" y="262" class="lbl">DRAM pin / PMEM pin / dynamic pool</text>
+  <text x="725" y="292" class="small">allocation 시점 결정</text>
+
+  <rect x="1080" y="190" width="420" height="120" class="b"/>
+  <text x="1105" y="230" class="t">4. 선택된 pool에서 allocation</text>
+  <text x="1105" y="262" class="lbl">object의 시작 위치가 정해짐</text>
+  <text x="1105" y="292" class="small">현재 결합 실험: ObjPart user-space migration은 주로 OFF</text>
+
+  <line x1="300" y1="250" x2="360" y2="250" class="flow"/>
+  <line x1="640" y1="250" x2="700" y2="250" class="flow"/>
+  <line x1="1000" y1="250" x2="1080" y2="250" class="flow"/>
+
+  <rect x="40" y="385" width="1520" height="250" class="lane2"/>
+  <text x="70" y="425" class="sh">B. MEMTIS runtime migration path</text>
+  <text x="70" y="460" class="lbl">MEMTIS가 결정하는 것: 어떤 page가 지금 DRAM에 있어야 하나</text>
+
+  <rect x="80" y="500" width="260" height="90" class="b"/>
+  <text x="105" y="537" class="t">5. 실행 중 page 접근</text>
+  <text x="105" y="567" class="lbl">read / write access</text>
+
+  <rect x="400" y="500" width="280" height="90" class="b"/>
+  <text x="425" y="537" class="t">6. sampling + hotness</text>
+  <text x="425" y="567" class="lbl">page-level runtime signal</text>
+
+  <rect x="740" y="485" width="320" height="120" class="b"/>
+  <text x="765" y="525" class="t">7. DRAM cap 아래 page 선택</text>
+  <text x="765" y="557" class="lbl">promote / demote 대상 결정</text>
+  <text x="765" y="587" class="small">MEMTIS는 object가 아니라 page를 본다</text>
+
+  <rect x="1140" y="485" width="320" height="120" class="b"/>
+  <text x="1165" y="525" class="t">8. page 이동</text>
+  <text x="1165" y="557" class="lbl">DRAM promote / PMEM demote</text>
+  <text x="1165" y="587" class="small">runtime migration</text>
+
+  <line x1="340" y1="545" x2="400" y2="545" class="flow"/>
+  <line x1="680" y1="545" x2="740" y2="545" class="flow"/>
+  <line x1="1060" y1="545" x2="1140" y2="545" class="flow"/>
+
+  <rect x="40" y="680" width="1520" height="300" class="lane3"/>
+  <text x="70" y="720" class="sh">C. 현재 interference-reduction 실험의 보호 계층</text>
+  <text x="70" y="755" class="lbl">이 계층은 ObjPart 전체가 아니라, 현재 결합 실험에 추가된 보호 규칙이다.</text>
+
+  <rect x="80" y="805" width="300" height="100" class="b"/>
+  <text x="105" y="845" class="t">9. 보호 category 선택</text>
+  <text x="105" y="877" class="lbl">short / frozen / EB / LB</text>
+
+  <rect x="450" y="790" width="360" height="130" class="b"/>
+  <text x="475" y="830" class="t">10. 보호할 range 계산</text>
+  <text x="475" y="862" class="lbl">static metadata 또는 runtime state 기반</text>
+  <text x="475" y="892" class="small">“지금은 migrate하지 말라”는 target range가 됨</text>
+
+  <rect x="900" y="790" width="300" height="130" class="b"/>
+  <text x="925" y="830" class="t">11. kernel exclude set 갱신</text>
+  <text x="925" y="862" class="lbl">migration-only protection</text>
+  <text x="925" y="892" class="small">MEMTIS 전체 OFF가 아님</text>
+
+  <rect x="1280" y="805" width="230" height="100" class="b"/>
+  <text x="1305" y="845" class="t">12. MEMTIS가 skip</text>
+  <text x="1305" y="877" class="lbl">보호된 range에 대해서만</text>
+
+  <line x1="380" y1="855" x2="450" y2="855" class="ctl"/>
+  <line x1="810" y1="855" x2="900" y2="855" class="ctl"/>
+  <line x1="1200" y1="855" x2="1280" y2="855" class="ctl"/>
+
+  <line x1="1230" y1="605" x2="1395" y2="805" class="ctl"/>
+  <text x="1240" y="690" class="small">보호 계층은 여기서 runtime migration에 개입한다</text>
+
+  <text x="70" y="1028" class="lbl">읽는 순서: ObjPart가 object의 시작 위치를 정함 -&gt; MEMTIS가 page를 런타임에 이동 -&gt; 보호 계층이 선택된 range에 대해 MEMTIS migration을 잠시 막음</text>
+</svg>
